@@ -1,0 +1,136 @@
+#Defines and shows player status
+def show_status(current_room, inventory):
+    print('You are in the', current_room)
+    print('Inventory:', inventory)
+
+#Shows item in room to player
+def item_in_room(current_room, rooms):
+    if current_room in rooms and 'item' in rooms[current_room]:
+        print('You see a', rooms[current_room]['item'])
+
+#Defines instruction list to show player
+def show_instructions():
+   #print a main menu and the commands
+   print("Haunted Text Adventure Game\n")
+   print("Collect 6 items to win the game, or be vanished by an evil spirit.")
+   print("Move commands: Go South, Go North, Go East, Go West, Exit game")
+   print("Add to Inventory: Get 'item name'")
+
+#Defines and runs main function of the game
+def main():
+# A dictionary for the simplified text game
+# The dictionary links a room to other rooms, and items to their designated rooms.
+    rooms = {
+        'Hallway': {'East': 'Living Room'},
+        'Living Room': {'North': 'Parents Room', 'South': 'Dining Room', 'East': 'Kitchen', 'West': 'Hallway',
+        'item': 'Family Photo'},
+        'Parents Room': {'East': 'Closet', 'South': 'Living Room', 'item': 'Bottle of Holy Water'},
+        'Closet': {'West': 'Parents Room', 'item': 'Cross Necklace'},
+        'Dining Room': {'North': 'Living Room', 'East': 'Moroas Bedroom', 'item': 'Flashlight'},
+        'Moroas Bedroom': {'West': 'Bedroom'},
+        'Kitchen': {'West': 'Living Room', 'North': 'Bathroom', 'item': 'Sage Stick'},
+        'Bathroom': {'South': 'Kitchen', 'item': 'Medkit'},
+    }
+
+
+    show_instructions()
+    current_room = 'Hallway'
+    inventory = []
+
+
+    #Starts while loop from start to end of game including invalid input
+    while True:
+
+        item_in_room(current_room, rooms)
+        show_status(current_room, inventory)
+        print('-------------------')
+        direction = input('Enter your move: ')
+
+    #Gives 'Exit game' meaning as required in rubric
+        if direction == 'Exit game':
+            print('Thank you for playing! You have exited the game.')
+            break
+    #Gives value to required directions matching with the item in that room
+        if direction == 'Go North' and 'North' in rooms[current_room]:
+            current_room = rooms[current_room]['North']
+        elif direction == 'Go South' and 'South' in rooms[current_room]:
+            current_room = rooms[current_room]['South']
+        elif direction == 'Go West' and 'West' in rooms[current_room]:
+            current_room = rooms[current_room]['West']
+        elif direction == 'Go East' and 'East' in rooms[current_room]:
+            current_room = rooms[current_room]['East']
+        #Preforms item retrieval if player "gets item name"
+
+        elif direction == 'Get Family Photo':
+            if 'item' in rooms[current_room] and rooms[current_room]['item'] == 'Family Photo':
+                item_location = rooms[current_room]['item']
+                print('You retrieved a:' , item_location)
+                inventory.append(item_location)
+                del rooms[current_room]['item']
+            else:
+                print('You cannot collect that here')
+        elif direction == 'Get Bottle of Holy Water':
+            if 'item' in rooms[current_room] and rooms[current_room]['item'] == 'Bottle of Holy Water':
+                item_location = rooms[current_room]['item']
+                print('You retrieved a:' , item_location)
+                inventory.append(item_location)
+                del rooms[current_room]['item']
+            else:
+                print('You cannot collect that here')
+        elif direction == 'Get Medkit':
+            if 'item' in rooms[current_room] and rooms[current_room]['item'] == 'Medkit':
+                item_location = rooms[current_room]['item']
+                print('You retrieved a:', item_location)
+                inventory.append(item_location)
+                del rooms[current_room]['item']
+            else:
+                print('You cannot collect that here')
+        elif direction == 'Get Cross Necklace':
+            if 'item' in rooms[current_room] and rooms[current_room]['item'] == 'Cross Necklace':
+                item_location = rooms[current_room]['item']
+                print('You retrieved a:', item_location)
+                inventory.append(item_location)
+                del rooms[current_room]['item']
+            else:
+                print('You cannot collect that here')
+        elif direction == 'Get Flashlight':
+            if 'item' in rooms[current_room] and rooms[current_room]['item'] == 'Flashlight':
+                item_location = rooms[current_room]['item']
+                print('You retrieved a:', item_location)
+                inventory.append(item_location)
+                del rooms[current_room]['item']
+            else:
+                print('You cannot collect that here')
+        elif direction == 'Get Sage Stick':
+            if 'item' in rooms[current_room] and rooms[current_room]['item'] == 'Sage Stick':
+                item_location = rooms[current_room]['item']
+                print('You retrieved a:', item_location)
+                inventory.append(item_location)
+                del rooms[current_room]['item']
+            #Prints else statement if item is not item in that specific room
+            else:
+                print('You cannot collect that here')
+        #Prints else statement for invalid commands and moves
+        else:
+            print('Invalid direction chosen or invalid command given, please try again.')
+            print('Direction options: Go North, Go South, Go East, Go West, Exit game \n')
+        # Creates Win/Loss option to complete game based on inventory items
+        final_item = 'Flashlight'
+        if len(inventory) >= 6 and current_room == 'Moroas Bedroom':
+            if final_item in inventory:
+                print('You see Moroa, and send him into the light with your inventory items')
+                print('Congratulations you have won, you have sent the Spirit into the light!')
+                print('Thank you for playing! You have exited the game.')
+            #Ends game
+            break
+        elif len(inventory) < 6 and current_room == 'Moroas Bedroom':
+            print('Sorry, you have been vanished by Moroa and lost the game.')
+            print('Thank you for playing! Hope you enjoyed')
+            #Ends game
+            break
+
+
+#Runs main function of game
+if __name__ == '__main__':
+    main()
+
